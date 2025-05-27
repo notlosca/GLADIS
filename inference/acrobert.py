@@ -121,7 +121,7 @@ if __name__ == '__main__':
     full_text = ' '.join(sentences) 
     print(full_text)
     sentences = [full_text]
-    mode = ['acrobert', 'pop']
+    # mode = ['acrobert', 'pop']
     for sentence in sentences:
         print(f'Sentence:\t{sentence}')
         results = acronym_linker(sentence, model=model, mode='acrobert')
