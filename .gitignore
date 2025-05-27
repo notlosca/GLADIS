@@ -132,3 +132,6 @@ dmypy.json
 # big boys (several MB)
 input/acronym_kb.json
 input/acrobert.pt
+
+# misc files
+input/example_text.txt
