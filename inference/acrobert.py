@@ -64,16 +64,14 @@ def dog_extract(sentence):
     return rulebased_pairs
 
 
-def acrobert(sentence, model_path, device):
-    model = AcronymBERT(device=device)
-    model.load_state_dict(torch.load(model_path, map_location='cpu'))
-    model.to(device)
+def acrobert(sentence, model, device):
     #params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     #print(params)
 
     tokens = [t.text for t in nlp(sentence) if len(t.text.strip()) > 0]
-    rulebased_pairs = ruleExtractor.extract(tokens, constant.RULES)
-
+    print(f"Tokens: {tokens}")
+    rulebased_pairs = ruleExtractor.extract(tokens, constant.RULES) # I think this is the source of the problems in detecting lower case
+    print(f"Rulebased pairs: {rulebased_pairs}")
     results = list()
     for acronym in rulebased_pairs.keys():
         if rulebased_pairs[acronym][0] != '':
@@ -101,20 +99,30 @@ def popularity(sentence):
     return results
 
 
-def acronym_linker(sentence, mode='acrobert', model_path='../input/acrobert.pt', device='cuda:0'):
+def acronym_linker(sentence, model, mode='acrobert', device='cuda:0'):
     if mode == 'acrobert':
-        return acrobert(sentence, model_path, device)
+        return acrobert(sentence, model, device)
     if mode == 'pop':
         return popularity(sentence)
     raise Exception('mode name should in this list [acrobert, pop]')
 
 
 if __name__ == '__main__':
-    sentence = \
-"""
-It seems that the model only recognizes acronyms with capital letters. I am 20 yo. How old are you? Oh you're 30 YO.
-"""
-    # "This new genome assembly and the annotation are tagged as a RefSeq genome by NCBI and thus provide substantially enhanced genomic resources for future research involving S. scovelli."
-    # mode = ['acrobert', 'pop']
-    results = acronym_linker(sentence, mode='acrobert')
-    print(results)
+    device = 'cuda:0'
+    model_path='../input/acrobert.pt'
+    model = AcronymBERT(device=device)
+    model.load_state_dict(torch.load(model_path, map_location='cpu'))
+    model.to(device)
+    
+    text_file_path = '../input/example_text.txt'
+    with open(text_file_path, 'r') as f:
+        sentences = f.readlines()
+    # sentences = [i.strip() for i in sentences]
+    full_text = ' '.join(sentences) 
+    print(full_text)
+    sentences = [full_text]
+    mode = ['acrobert', 'pop']
+    for sentence in sentences:
+        print(f'Sentence:\t{sentence}')
+        results = acronym_linker(sentence, model=model, mode='acrobert')
+        print("Results:", results)
