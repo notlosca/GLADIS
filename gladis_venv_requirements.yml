@@ -1,0 +1,15 @@
+name: gladis
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python
+  - pip
+  - ipykernel
+  - spacy
+  - numpy
+  - transformers==4.29.2
+  - pytorch
+  - nltk
+# Put your own prefix (path)
+prefix: /home/losca/micromamba/envs/gladis

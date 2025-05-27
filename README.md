@@ -1,4 +1,7 @@
-# GLADIS
+# losca addition
+- Install the virtual environment via micromamba. The file gladis_venv_requirements.yml contains the libraries to be installed.
+
+# Original GLADIS
 GLADIS: A General and Large Acronym Disambiguation Benchmark ([Long paper at EACL 23](https://aclanthology.org/2023.eacl-main.152.pdf)) under the CC0-1.0 license.
 
 
