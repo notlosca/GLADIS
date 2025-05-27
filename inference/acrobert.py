@@ -111,7 +111,10 @@ def acronym_linker(sentence, mode='acrobert', model_path='../input/acrobert.pt',
 
 if __name__ == '__main__':
     sentence = \
-    "This new genome assembly and the annotation are tagged as a RefSeq genome by NCBI and thus provide substantially enhanced genomic resources for future research involving S. scovelli."
+"""
+It seems that the model only recognizes acronyms with capital letters. I am 20 yo. How old are you? Oh you're 30 YO.
+"""
+    # "This new genome assembly and the annotation are tagged as a RefSeq genome by NCBI and thus provide substantially enhanced genomic resources for future research involving S. scovelli."
     # mode = ['acrobert', 'pop']
     results = acronym_linker(sentence, mode='acrobert')
     print(results)
