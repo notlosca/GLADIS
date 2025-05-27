@@ -128,3 +128,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# big boys (several MB)
+input/acronym_kb.json
+input/acrobert.pt
