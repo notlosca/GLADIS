@@ -135,3 +135,4 @@ input/acrobert.pt
 
 # misc files
 input/example_text.txt
+inference/losca_acrobert.py
