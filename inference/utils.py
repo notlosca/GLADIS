@@ -30,8 +30,12 @@ def load_acronym_kb(kb_path='acronym_kb.json'):
 
 
 def get_candidate(acronym_kb, short_term, can_num=10):
-    return acronym_kb[short_term][:can_num]
-
+    try:
+        return acronym_kb[short_term][:can_num]
+    except Exception as e:
+        print(f"Acronym: {short_term} not found in the acronym knowledge base")
+        return ''
+        
 def load_data(path):
     data = list()
     for line in open(path, encoding='utf8'):

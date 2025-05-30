@@ -2,11 +2,14 @@ import numpy as np
 from math import exp
 import torch
 from torch import nn
+import transformers
 from transformers import BertTokenizer, BertForNextSentencePrediction
 import utils
 from maddog import Extractor
 import spacy
 import constant
+
+transformers.logging.set_verbosity_error()
 
 nlp = spacy.load("en_core_web_sm")
 ruleExtractor = Extractor()
@@ -78,8 +81,12 @@ def acrobert(sentence, model, device):
             results.append((acronym, rulebased_pairs[acronym][0]))
         else:
 
-            pred = predict(1, model, acronym, sentence, batch_size=10, acronym_kb=kb, device=device)
-            results.append((acronym, pred[0]))
+            pred = predict(10, model, acronym, sentence, batch_size=10, acronym_kb=kb, device=device)
+            print(pred)
+            if len(pred) == 0:
+                results.append((acronym, None))
+            else:               
+                results.append((acronym, pred[0]))
     return results
 
 
@@ -108,6 +115,7 @@ def acronym_linker(sentence, model, mode='acrobert', device='cuda:0'):
 
 
 if __name__ == '__main__':
+    
     device = 'cuda:0'
     model_path='../input/acrobert.pt'
     model = AcronymBERT(device=device)
@@ -119,7 +127,7 @@ if __name__ == '__main__':
         sentences = f.readlines()
     # sentences = [i.strip() for i in sentences]
     full_text = ' '.join(sentences) 
-    print(full_text)
+    # print(full_text)
     sentences = [full_text]
     # mode = ['acrobert', 'pop']
     for sentence in sentences:
